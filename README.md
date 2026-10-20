@@ -47,41 +47,18 @@ Los resultados de las operaciones que escriben A convergen en un bus común medi
 - `registro-A.bdf`, `registro-B.bdf`, `registro-estado.bdf`: registros de datos y flags.
 - `V-flag-logic.bdf`, `Z-flag-logic.bdf`: lógica asociada a las flags de overflow y cero.
 - `*.bsf`: símbolos de los componentes utilizados por los esquemas.
-- `*.vwf`: vectores de onda para la simulación, con archivos diferenciados por operación y pruebas integradas.
+- `simulation/*.vwf`: vectores de onda para la simulación, con archivos diferenciados por operación y pruebas integradas.
 
 ## Apertura y compilación
 
 1. Abrir `TPI.qpf` con Quartus II 13.1 o una versión compatible.
 2. Confirmar que `TPI` figure como entidad de nivel superior y que los archivos `.bdf` referenciados estén en el directorio del proyecto.
 3. Ejecutar **Processing > Start Compilation**.
-4. Para inspeccionar los estímulos, abrir los archivos `.vwf` en el Waveform Editor. La simulación requiere una versión compatible de ModelSim-Altera y la configuración EDA correspondiente.
+4. Para inspeccionar los estímulos, abrir los archivos `.vwf` de `simulation/` en el Waveform Editor. La simulación requiere una versión compatible de ModelSim-Altera y la configuración EDA correspondiente.
 
-El archivo `TPI.qsf` contiene una ruta absoluta de salida de simulación de Windows (`C:/Users/ALAN/...`) que pertenece al entorno original. Puede ser necesario actualizar la ruta EDA de simulación en Quartus antes de ejecutar ModelSim en otro equipo. Los archivos del repositorio incluyen los proyectos y vectores, pero no resultados de compilación generados.
+## Estructura del proyecto
 
-## Verificación documentada
-
-El informe del trabajo práctico describe una simulación con carga inicial `A=0101`, `B=0011` y recorrido secuencial de los ocho códigos, verificando la actualización y retención de estado entre flancos de reloj. Los resultados informados son:
-
-| `CodOp` | Operación | A después de la operación | V | N | Z | C |
-| --- | --- | --- | --- | --- | --- | --- |
-| `000` | NOP | `0101` | — | — | — | — |
-| `001` | ADD | `1000` | 1 | 1 | 0 | 0 |
-| `010` | SUB | `0101` | 1 | 0 | 0 | 1 |
-| `011` | CMP | `0101` | 0 | 0 | 0 | 1 |
-| `100` | NOT | `1010` | 0 | 1 | 0 | 1 |
-| `101` | AND | `0010` | 0 | 0 | 0 | 1 |
-| `110` | OR | `0011` | 0 | 0 | 0 | 1 |
-| `111` | ASR | `0001` | 0 | 0 | 0 | 1 |
-
-En NOP, las flags se conservan; por eso se muestran con guiones. El informe no incluye reportes de compilación de Quartus ni artefactos de simulación exportados.
-
-## Equipo
-
-Trabajo Integrador de Introducción al Diseño Lógico (E1301), Grupo 11:
-
-- Lucio Agustin Persano
-- Elias Brea
-- Mateo Gau
-- Alan Tolaba
-- Mateo Rivas Aramburu
-
+- `TPI.qpf`, `TPI.qsf`, `TPI.bdf`: proyecto Quartus, asignaciones y esquema de nivel superior.
+- `*.bdf`, `*.bsf`: esquemas y símbolos de los bloques; se mantienen junto al proyecto para conservar las referencias jerárquicas de Quartus.
+- `simulation/*.vwf`: vectores de onda asociados al proyecto.
+- `.gitignore`: excluye archivos temporales y resultados generados por Quartus.
